@@ -1,8 +1,15 @@
 package com.my_organizer.api.entity;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
+@Table
 public class Note {
+    @Id
+    @SequenceGenerator(name="note_sequence", sequenceName = "note_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "note_sequence")
     private Long id;
     private String content;
     private LocalDate creationDate;
