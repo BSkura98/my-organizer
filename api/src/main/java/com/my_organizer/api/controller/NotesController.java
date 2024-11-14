@@ -3,11 +3,8 @@ package com.my_organizer.api.controller;
 import com.my_organizer.api.entity.Note;
 import com.my_organizer.api.service.NotesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -23,5 +20,10 @@ public class NotesController {
     @GetMapping
     public List<Note> getNotes() {
         return notesService.getNotes();
+    }
+
+    @PostMapping
+    public Note createNote(@RequestBody Note note){
+        return notesService.createNote(note);
     }
 }
