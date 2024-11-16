@@ -24,4 +24,12 @@ public class NotesService {
     public Note createNote(Note note) {
         return notesRepository.save(note);
     }
+
+    public void deleteNote(Long id) {
+        boolean exists = notesRepository.existsById(id);
+        if(!exists){
+            throw new IllegalStateException("Note with id " + id + "does not exist");
+        }
+        notesRepository.deleteById(id);
+    }
 }

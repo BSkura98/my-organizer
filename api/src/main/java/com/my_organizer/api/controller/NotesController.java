@@ -26,4 +26,9 @@ public class NotesController {
     public Note createNote(@RequestBody Note note){
         return notesService.createNote(note);
     }
+
+    @DeleteMapping(path="{noteId}")
+    public void deleteNote(@PathVariable("noteId") Long id) {
+        notesService.deleteNote(id);
+    }
 }
