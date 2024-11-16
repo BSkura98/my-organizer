@@ -3,9 +3,12 @@ package com.my_organizer.api.service;
 import com.my_organizer.api.entity.Note;
 import com.my_organizer.api.repository.NotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class NotesService {
@@ -31,5 +34,22 @@ public class NotesService {
             throw new IllegalStateException("Note with id " + id + "does not exist");
         }
         notesRepository.deleteById(id);
+    }
+
+    public Note updateNote(Long id, Map<String, Object> fields) {
+        Note project = notesRepository
+                .findById(id)
+                .orElseThrow(()-> new IllegalStateException("Note with id " + id + " does not exist"));
+
+        fields.forEach((key, value) -> {
+            if(!(key.equals("id"))){
+                Field field = ReflectionUtils.findField(Note.class, key);
+                if (field != null) {
+                    field.setAccessible(true);
+                    ReflectionUtils.setField(field, project, value);
+                }
+            }
+        });
+        return notesRepository.save(project);
     }
 }

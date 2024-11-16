@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path="api/notes")
@@ -25,6 +26,11 @@ public class NotesController {
     @PostMapping
     public Note createNote(@RequestBody Note note){
         return notesService.createNote(note);
+    }
+
+    @PatchMapping("/{id}")
+    public Note updateNote(@PathVariable Long id, @RequestBody Map<String, Object> fields){
+        return notesService.updateNote(id, fields);
     }
 
     @DeleteMapping(path="{noteId}")
