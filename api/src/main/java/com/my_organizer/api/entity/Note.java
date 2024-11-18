@@ -2,7 +2,7 @@ package com.my_organizer.api.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -12,20 +12,20 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "note_sequence")
     private Long id;
     private String content;
-    private LocalDate creationDate;
+    private LocalDateTime createdAt;
 
     public Note() {
     }
 
-    public Note(Long id, String content, LocalDate creationDate) {
+    public Note(Long id, String content, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;
-        this.creationDate = creationDate;
+        this.createdAt = createdAt;
     }
 
-    public Note(String content, LocalDate creationDate) {
+    public Note(String content, LocalDateTime createdAt) {
         this.content = content;
-        this.creationDate = creationDate;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -44,12 +44,12 @@ public class Note {
         this.content = content;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Note {
         return "Note{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", creationDate=" + creationDate +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
