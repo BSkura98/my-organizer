@@ -37,7 +37,7 @@ public class NotesService {
     }
 
     public Note updateNote(Long id, Map<String, Object> fields) {
-        Note project = notesRepository
+        Note note = notesRepository
                 .findById(id)
                 .orElseThrow(()-> new IllegalStateException("Note with id " + id + " does not exist"));
 
@@ -46,10 +46,10 @@ public class NotesService {
                 Field field = ReflectionUtils.findField(Note.class, key);
                 if (field != null) {
                     field.setAccessible(true);
-                    ReflectionUtils.setField(field, project, value);
+                    ReflectionUtils.setField(field, note, value);
                 }
             }
         });
-        return notesRepository.save(project);
+        return notesRepository.save(note);
     }
 }
