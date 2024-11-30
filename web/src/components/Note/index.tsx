@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 
 import { Note as NoteEntity } from "../../entities/Note";
 
-type Props = NoteEntity;
+type Props = Omit<NoteEntity, "id">;
 
 export default function Note({ content, createdAt }: Props) {
   return (
