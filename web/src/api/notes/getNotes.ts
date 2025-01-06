@@ -1,4 +1,4 @@
-import { createClient } from "./api";
+import { createClient } from "../api";
 
 type Response = {
   content: string;
