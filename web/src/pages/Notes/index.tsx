@@ -3,11 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
+import Typography from "@mui/material/Typography";
 
 import Note from "../../components/Note";
 import { Wrapper } from "./styled";
 import { getNotes } from "../../api/notes/getNotes";
-import Typography from "@mui/material/Typography";
 import { CreateNoteDialog } from "./CreateNoteDialog";
 
 export default function Notes() {
@@ -47,11 +47,22 @@ export default function Notes() {
           </Button>
         </Stack>
         {query.data?.map(({ content, createdAt, id }) => (
-          <Note
-            content={content}
-            createdAt={new Date(...createdAt)}
-            key={id}
-          ></Note>
+          <>
+            <Note
+              content={content}
+              createdAt={
+                new Date(
+                  createdAt[0],
+                  createdAt[1] - 1,
+                  createdAt[2],
+                  createdAt[3],
+                  createdAt[4],
+                  createdAt[5]
+                )
+              }
+              key={id}
+            ></Note>
+          </>
         ))}
       </Wrapper>
     </>
