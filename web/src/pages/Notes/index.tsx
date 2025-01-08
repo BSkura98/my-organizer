@@ -60,6 +60,7 @@ export default function Notes() {
                   createdAt[5]
                 )
               }
+              id={id}
               key={id}
             ></Note>
           </>
