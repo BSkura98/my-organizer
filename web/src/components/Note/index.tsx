@@ -1,10 +1,11 @@
-import * as React from "react";
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteNote } from "../../api/notes/deleteNote";
@@ -21,6 +22,8 @@ export default function Note({ content, createdAt, id }: Props) {
     },
   });
 
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+
   return (
     <Card sx={{ minWidth: 275 }} className="note">
       <CardContent>
@@ -35,15 +38,26 @@ export default function Note({ content, createdAt, id }: Props) {
           <Typography variant="caption">
             Created at {createdAt.toLocaleString()}
           </Typography>
-          <IconButton
-            aria-label="delete"
-            onClick={(e) => {
-              e.preventDefault();
-              mutation.mutate();
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <Stack direction="row">
+            <IconButton
+              aria-label="edit"
+              onClick={(e) => {
+                e.preventDefault();
+                setEditDialogOpen(true);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              aria-label="delete"
+              onClick={(e) => {
+                e.preventDefault();
+                mutation.mutate();
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Stack>
         </Stack>
       </CardContent>
     </Card>
