@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteNote } from "../../api/notes/deleteNote";
 import { Note as NoteEntity } from "../../entities/Note";
+import { EditNoteDialog } from "./EditNoteDialog";
 
 type Props = NoteEntity;
 
@@ -25,41 +26,50 @@ export default function Note({ content, createdAt, id }: Props) {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
   return (
-    <Card sx={{ minWidth: 275 }} className="note">
-      <CardContent>
-        <Typography variant="body2">{content}</Typography>
-        <Stack
-          direction="row"
-          sx={{
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="caption">
-            Created at {createdAt.toLocaleString()}
-          </Typography>
-          <Stack direction="row">
-            <IconButton
-              aria-label="edit"
-              onClick={(e) => {
-                e.preventDefault();
-                setEditDialogOpen(true);
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              aria-label="delete"
-              onClick={(e) => {
-                e.preventDefault();
-                mutation.mutate();
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
+    <>
+      {editDialogOpen && (
+        <EditNoteDialog
+          note={{ content, createdAt, id }}
+          open={editDialogOpen}
+          onClose={() => setEditDialogOpen(false)}
+        />
+      )}
+      <Card sx={{ minWidth: 275 }} className="note">
+        <CardContent>
+          <Typography variant="body2">{content}</Typography>
+          <Stack
+            direction="row"
+            sx={{
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="caption">
+              Created at {createdAt.toLocaleString()}
+            </Typography>
+            <Stack direction="row">
+              <IconButton
+                aria-label="edit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setEditDialogOpen(true);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                aria-label="delete"
+                onClick={(e) => {
+                  e.preventDefault();
+                  mutation.mutate();
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Stack>
           </Stack>
-        </Stack>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </>
   );
 }
