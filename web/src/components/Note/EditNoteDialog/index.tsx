@@ -5,8 +5,10 @@ import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Note } from "../../../entities/Note";
+import { updateNote } from "../../../api/notes/updateNote";
 
 interface Props {
   note: Note;
@@ -16,6 +18,14 @@ interface Props {
 
 export const EditNoteDialog = ({ note, open, onClose }: Props) => {
   const [content, setContent] = useState<string>(note.content);
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async () => await updateNote(note.id, { content }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+      onClose();
+    },
+  });
 
   return (
     <Dialog
@@ -25,7 +35,7 @@ export const EditNoteDialog = ({ note, open, onClose }: Props) => {
         component: "form",
         onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
-          onClose();
+          mutation.mutate();
         },
       }}
       maxWidth="xs"
