@@ -46,6 +46,11 @@ export default function Notes() {
             Create
           </Button>
         </Stack>
+        {query.data?.length === 0 && (
+          <Typography variant="body2" gutterBottom marginTop="1rem">
+            There are no notes to display
+          </Typography>
+        )}
         {query.data?.map(({ content, createdAt, id }) => (
           <>
             <Note
