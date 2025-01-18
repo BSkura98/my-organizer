@@ -16,8 +16,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import SettingsIcon from "@mui/icons-material/Settings";
+
 import Notes from "../../pages/Notes";
 
 const drawerWidth = 240;
@@ -85,6 +85,7 @@ interface Props {
   menuItems: {
     name: string;
     component: JSX.Element;
+    icon: JSX.Element;
   }[];
 }
 
@@ -148,26 +149,22 @@ export default function PersistentDrawer({ menuItems }: Props) {
         </DrawerHeader>
         <Divider />
         <List>
-          {menuItems
-            .map((item) => item.name)
-            .map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+          {menuItems.map((item) => (
+            <ListItem key={item.name} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
         <Divider />
         <List>
-          {["Settings"].map((text, index) => (
+          {["Settings"].map((text) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <SettingsIcon />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
