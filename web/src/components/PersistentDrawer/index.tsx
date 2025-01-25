@@ -18,7 +18,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-import Notes from "../../pages/Notes";
+import { MenuItem } from "./MenuItem";
 
 const drawerWidth = 240;
 
@@ -82,14 +82,16 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 interface Props {
-  menuItems: {
-    name: string;
-    component: JSX.Element;
-    icon: JSX.Element;
-  }[];
+  menuItems: MenuItem[];
+  currentPage: string;
+  setCurrentPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function PersistentDrawer({ menuItems }: Props) {
+export default function PersistentDrawer({
+  menuItems,
+  currentPage,
+  setCurrentPage,
+}: Props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -121,7 +123,7 @@ export default function PersistentDrawer({ menuItems }: Props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Notes
+            {currentPage}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -151,7 +153,7 @@ export default function PersistentDrawer({ menuItems }: Props) {
         <List>
           {menuItems.map((item) => (
             <ListItem key={item.name} disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => setCurrentPage(item.name)}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItemButton>
@@ -174,7 +176,7 @@ export default function PersistentDrawer({ menuItems }: Props) {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Notes />
+        {menuItems.find((item) => item.name === currentPage)?.component}
       </Main>
     </Box>
   );
