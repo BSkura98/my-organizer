@@ -16,7 +16,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import SettingsIcon from "@mui/icons-material/Settings";
 
 import { MenuItem } from "./MenuItem";
 
@@ -82,13 +81,15 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 interface Props {
-  menuItems: MenuItem[];
+  primaryMenuItems: MenuItem[];
+  secondaryMenuItems: MenuItem[];
   currentPage: string;
   setCurrentPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function PersistentDrawer({
-  menuItems,
+  primaryMenuItems,
+  secondaryMenuItems,
   currentPage,
   setCurrentPage,
 }: Props) {
@@ -151,7 +152,7 @@ export default function PersistentDrawer({
         </DrawerHeader>
         <Divider />
         <List>
-          {menuItems.map((item) => (
+          {primaryMenuItems.map((item) => (
             <ListItem key={item.name} disablePadding>
               <ListItemButton onClick={() => setCurrentPage(item.name)}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
@@ -162,13 +163,11 @@ export default function PersistentDrawer({
         </List>
         <Divider />
         <List>
-          {["Settings"].map((text) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary={text} />
+          {secondaryMenuItems.map((item) => (
+            <ListItem key={item.name} disablePadding>
+              <ListItemButton onClick={() => setCurrentPage(item.name)}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.name} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -176,7 +175,11 @@ export default function PersistentDrawer({
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        {menuItems.find((item) => item.name === currentPage)?.component}
+        {
+          primaryMenuItems
+            .concat(secondaryMenuItems)
+            .find((item) => item.name === currentPage)?.component
+        }
       </Main>
     </Box>
   );
